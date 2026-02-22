@@ -23,20 +23,22 @@ namespace FotbollTournament
             builder.Services.AddScoped<IGameService, GameService>();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-
+      
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
-
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Fotboll Tournament API V1");
+                    options.SwaggerEndpoint("/openapi/v1.json", "Fotboll Tournament API V1");
                     options.RoutePrefix = "swagger";
+
                 });
 
             }

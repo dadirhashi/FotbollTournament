@@ -1,8 +1,10 @@
-﻿using FotbollTournament.DB;
+﻿using AutoMapper;
+using FotbollTournament.DB;
+using FotbollTournament.DTOS;
 using FotbollTournament.Model;
 using FotbollTournament.Services.Interface;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 
 namespace FotbollTournament.Services
 {
@@ -45,8 +47,12 @@ namespace FotbollTournament.Services
 
         public async Task<bool> UpdateAsync(Game game)
         {
-            _context.Games.Update(game);
-            return await _context.SaveChangesAsync() > 0;
+            var updateGame = await _context.Games.FindAsync(game.GameId);
+            if (updateGame == null) 
+                return false;
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<bool> DeleteAsync(int id)

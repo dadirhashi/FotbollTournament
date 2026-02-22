@@ -46,20 +46,32 @@ namespace FotbollTournament.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.GameId }, dto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Game game)
+        [HttpPut("id")]
+        public async Task<IActionResult> Update(int id, [FromQuery] GameDto dto)
         {
-            if (id != game.GameId)
-                return BadRequest();
+            // 1. Kontrollera att id i URL matchar id i body
+            if (id != dto.GameId)
+                return BadRequest("Id mismatch");
 
-            var updated = await _gameService.UpdateAsync(game);
-            if (!updated)
+            // 2. Hämta spelet från databasen
+            var existingGame = await _gameService.GetByIdAsync(id);
+            if (existingGame == null)
                 return NotFound();
+
+            // 3. Mappa DTO → entity (uppdatera befintligt objekt)
+            _mapper.Map(dto, existingGame);
+
+            // 4. Uppdatera i databasen
+            var updated = await _gameService.UpdateAsync(existingGame);
+
+            if (!updated)
+                return StatusCode(500, "Could not update game");
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+
+        [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _gameService.DeleteAsync(id);
