@@ -4,6 +4,8 @@ namespace FotbollTournament.DTOS
 {
     public class TournamentDto
     {
+        public int TournamentId { get; set; }
+
         [Required (ErrorMessage = "Tournament name is required")]
         public string Name { get; set; }
 

@@ -8,7 +8,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Tournament, TournamentDto>();
-        CreateMap<Team, TeamDto>();
+        CreateMap<Team, TeamDto>().ReverseMap();
         CreateMap<Player, PlayerDto>().ReverseMap();
         CreateMap<Game, GameDto>()
             .ForMember(dest => dest.HomeTeamName, opt => opt.MapFrom(src => src.HomeTeam.TeamName))

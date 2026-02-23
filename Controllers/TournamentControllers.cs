@@ -26,8 +26,8 @@ namespace FotbollTournament.Controllers
             return Ok(dto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("id")]
+        public async Task<IActionResult> GetById([FromQuery]int id)
         {
             var tournament = await _tournamentService.GetByIdAsync(id);
             if (tournament == null)
