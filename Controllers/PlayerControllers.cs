@@ -1,4 +1,6 @@
-﻿using FotbollTournament.Model;
+﻿using AutoMapper;
+using FotbollTournament.DTOS;
+using FotbollTournament.Model;
 using FotbollTournament.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 namespace FotbollTournament.Controllers
@@ -8,51 +10,70 @@ namespace FotbollTournament.Controllers
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;
+        private readonly IMapper _mapper;
 
-        public PlayerController(IPlayerService playerService)
+        public PlayerController(IPlayerService playerService, IMapper mapper)
         {
             _playerService = playerService;
+            _mapper = mapper;
         }
 
+        // GET: api/player
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string ? Name)
+        public async Task<IActionResult> GetAll()
         {
             var players = await _playerService.GetAllAsync();
-            return Ok(players);
+            var dto = _mapper.Map<IEnumerable<PlayerDto>>(players);
+            return Ok(dto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        // GET: api/player/5
+        [HttpGet("id")]
+        public async Task<IActionResult> GetById([FromQuery]int id)
         {
             var player = await _playerService.GetByIdAsync(id);
             if (player == null)
                 return NotFound();
 
-            return Ok(player);
+            var dto = _mapper.Map<PlayerDto>(player);
+            return Ok(dto);
         }
 
+        // POST: api/player
         [HttpPost]
-        public async Task<IActionResult> Create(Player player)
+        public async Task<IActionResult> Create(PlayerDto playerDto)
         {
+            var player = _mapper.Map<PlayerDto, Player>(playerDto);
             var created = await _playerService.CreateAsync(player);
-            return CreatedAtAction(nameof(GetById), new { id = created.PlayerId }, created);
+
+            var dto = _mapper.Map<PlayerDto>(created);
+
+            return CreatedAtAction(nameof(GetById), new { id = created.PlayerId }, dto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Player player)
+        // PUT: api/player/5
+        [HttpPut("id")]
+        public async Task<IActionResult> Update([FromQuery]int id, PlayerDto dto)
         {
-            if (id != player.PlayerId)
-                return BadRequest();
+            if (id != dto.PlayerId)
+                return BadRequest("Id mismatch");
 
-            var updated = await _playerService.UpdateAsync(player);
-            if (!updated)
+            var existingPlayer = await _playerService.GetByIdAsync(id);
+            if (existingPlayer == null)
                 return NotFound();
+
+            _mapper.Map(dto, existingPlayer);
+
+            var updated = await _playerService.UpdateAsync(existingPlayer);
+            if (!updated)
+                return StatusCode(500, "Could not update player");
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        // DELETE: api/player/5
+        [HttpDelete("id")]
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
             var deleted = await _playerService.DeleteAsync(id);
             if (!deleted)

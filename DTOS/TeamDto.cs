@@ -4,7 +4,7 @@ namespace FotbollTournament.DTOS
     public class TeamDto
     {
        [Required (ErrorMessage = "Team name is required")]
-        public string Name { get; set; }
+        public string TeamName { get; set; }
         [Required (ErrorMessage = "Coach name is required")]
         public string CoachName { get; set; }
 
