@@ -15,7 +15,5 @@ namespace FotbollTournament.DTOS
         [Required (ErrorMessage = "End date is required")]
         public DateTime EndDate { get; set; }
 
-        public List<TeamDto>? Teams { get; set; }
-       
     }
 }

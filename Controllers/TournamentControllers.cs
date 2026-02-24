@@ -33,30 +33,36 @@ namespace FotbollTournament.Controllers
             if (tournament == null)
                 return NotFound();
 
-            return Ok(tournament);
+            var dto = _mapper.Map<TournamentDto>(tournament);
+
+            return Ok(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Tournament tournament)
+        public async Task<IActionResult> Create(TournamentDto tournamentDto)
         {
+            var tournament = _mapper.Map<TournamentDto, Tournament>(tournamentDto);
             var created = await _tournamentService.CreateAsync(tournament);
+            var dto = _mapper.Map<TournamentDto>(created);
             return CreatedAtAction(nameof(GetById), new { id = created.TournamentId }, created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Tournament tournament)
+        [HttpPut("id")]
+        public async Task<IActionResult> Update(int id, TournamentDto tournamentDto)
         {
-            if (id != tournament.TournamentId)
-                return BadRequest();
+            if (id != tournamentDto.TournamentId)
+                return BadRequest("Id not found");
+            var exsistingTournament = await _tournamentService.GetByIdAsync(id);
+           _mapper.Map(tournamentDto, exsistingTournament);
 
-            var updated = await _tournamentService.UpdateAsync(tournament);
+            var updated = await _tournamentService.UpdateAsync(exsistingTournament);
             if (!updated)
-                return NotFound();
+                return NotFound("Tournament not found");
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("id")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _tournamentService.DeleteAsync(id);
