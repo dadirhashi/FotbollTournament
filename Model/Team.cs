@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace FotbollTournament.Model
+﻿namespace FotbollTournament.Model
 {
     public class Team
     {

@@ -23,6 +23,7 @@ namespace FotbollTournament
             builder.Services.AddScoped<IGameService, GameService>();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddControllers();
+            builder.Services.AddCors();
             builder.Services.AddEndpointsApiExplorer();
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -43,11 +44,10 @@ namespace FotbollTournament
 
             }
 
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
