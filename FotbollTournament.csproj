@@ -18,4 +18,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FotbollTournament.Application\FotbollTournament.Application.csproj" />
+    <ProjectReference Include="..\FotbollTournament.Infrastructure\FotbollTournament.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

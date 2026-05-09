@@ -1,8 +1,6 @@
 
-using FotbollTournament.DB;
-using FotbollTournament.Services;
-using FotbollTournament.Services.Interface;
 using Microsoft.EntityFrameworkCore;
+using FotbollTournament.Infrastructure.Persistence;
 
 namespace FotbollTournament
 {
