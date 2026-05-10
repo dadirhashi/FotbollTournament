@@ -25,7 +25,7 @@ public class GamesController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateGameCommand command)
     {
         var dto = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
+        return CreatedAtAction(nameof(GetById), new { id = dto.GameId }, dto);
     }
 
     [HttpPut("{id}")]
