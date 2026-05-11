@@ -18,7 +18,7 @@ namespace FotbollTournament.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int teamId)
-            => Ok(await _mediator.Send(new GetTeamsByIdQuery(teamId)));
+            => Ok(await _mediator.Send(new GetTeamByIdQuery(teamId)));
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTeamCommand command)
         {
