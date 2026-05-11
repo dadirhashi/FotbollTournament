@@ -1,84 +1,44 @@
-﻿using FotbollTournament.Model;
+﻿using FotbollTournament.Application.Commands.Games;
+using FotbollTournament.Application.Queries.Games;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using FotbollTournament.Services.Interface;
-using FotbollTournament.DTOS;
-using AutoMapper;
-namespace FotbollTournament.Controllers
+using FotbollTournament.Application.Commands.Games;
+
+namespace FotbollTournament.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class GamesController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GameController : ControllerBase
+    private readonly IMediator _mediator;
+    public GamesController(IMediator mediator) => _mediator = mediator;
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+        => Ok(await _mediator.Send(new GetAllGamesQuery()));
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+        => Ok(await _mediator.Send(new GetGameByIdQuery(id)));
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateGameCommand command)
     {
-        private readonly IGameService _gameService;
-        private readonly IMapper _mapper;
+        var dto = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = dto.GameId }, dto);
+    }
 
-        public GameController(IGameService gameService, IMapper mapper)
-        {
-            _gameService = gameService;
-            _mapper = mapper;
-        }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateGameCommand command)
+    {
+        await _mediator.Send(command with { Id = id });
+        return NoContent();
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var games = await _gameService.GetAllAsync();
-            var dto = _mapper.Map<IEnumerable<GameDto>>(games);
-            return Ok(dto);
-        }
-
-        [HttpGet("id")]
-        public async Task<IActionResult> GetById([FromQuery] int id)
-        {
-            var game = await _gameService.GetByIdAsync(id);
-            if (game == null)
-                return NotFound();
-
-            var dto = _mapper.Map<GameDto> (game);
-            return Ok(dto);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(GameDto gamedto)
-        {
-            var game = _mapper.Map<GameDto, Game>(gamedto);
-            var created = await _gameService.CreateAsync(game);
-            var dto = _mapper.Map<GameDto>(created);
-            return CreatedAtAction(nameof(GetById), new { id = created.GameId }, dto);
-        }
-
-        [HttpPut("id")]
-        public async Task<IActionResult> Update(int id, [FromQuery] GameDto dto)
-        {
-            // 1. Kontrollera att id i URL matchar id i body
-            if (id != dto.GameId)
-                return BadRequest("Id mismatch");
-
-            // 2. Hämta spelet från databasen
-            var existingGame = await _gameService.GetByIdAsync(id);
-            if (existingGame == null)
-                return NotFound();
-
-            // 3. Mappa DTO → entity (uppdatera befintligt objekt)
-            _mapper.Map(dto, existingGame);
-
-            // 4. Uppdatera i databasen
-            var updated = await _gameService.UpdateAsync(existingGame);
-
-            if (!updated)
-                return StatusCode(500, "Could not update game");
-
-            return NoContent();
-        }
-
-
-        [HttpDelete("id")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var deleted = await _gameService.DeleteAsync(id);
-            if (!deleted)
-                return NotFound();
-
-            return NoContent();
-        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _mediator.Send(new DeleteGameCommand(id));
+        return NoContent();
     }
 }

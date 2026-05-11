@@ -1,79 +1,44 @@
-﻿using FotbollTournament.Model;
+﻿using FotbollTournament.Application.Commands.Games;
+using FotbollTournament.Application.Commands.Teams;
+using FotbollTournament.Application.Queries.Teams;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using FotbollTournament.Services.Interface;
-using AutoMapper;
-using FotbollTournament.DTOS;
 namespace FotbollTournament.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class TeamController : ControllerBase
     {
-        private readonly ITeamService _teamService;
-        private readonly IMapper _mapper;
-        public TeamController(ITeamService teamService, IMapper mapper)
-        {
-            _teamService = teamService;
-            _mapper = mapper;
-        }
+        private readonly IMediator _mediator;
+        public TeamController (IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
-        {
-            var teams = await _teamService.GetAllAsync();
-            var dtos = _mapper.Map<IEnumerable<TeamDto>>(teams);
-            return Ok(dtos);
-        }
+            => Ok(await _mediator.Send(new GetAllTeamsQuery()));
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetById([FromQuery] int id)
-        {
-            var team = await _teamService.GetByIdAsync(id);
-            if (team == null)
-                return NotFound();
-            var dto = _mapper.Map<TeamDto>(team);
-
-            return Ok(dto);
-        }
-
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int teamId)
+            => Ok(await _mediator.Send(new GetTeamByIdQuery(teamId)));
         [HttpPost]
-        public async Task<IActionResult> Create(TeamDto teamDto)
+        public async Task<IActionResult> Create([FromBody] CreateTeamCommand command)
         {
-            var team = _mapper.Map<TeamDto, Team>(teamDto);
-            var created = await _teamService.CreateAsync(team);
-            var dto = _mapper.Map<TeamDto>(created);
-            return CreatedAtAction(nameof(GetById), new { id = created.TeamId }, created);
+            var dto = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { teamId = dto.TeamId }, dto);
         }
 
-        [HttpPut("id")]
-        public async Task<IActionResult> Update([FromQuery] int id, TeamDto teamDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateGameCommand command)
         {
-            if (id != teamDto.TeamId)
-                return BadRequest("Team could not be found");
-
-            var existing = await _teamService.GetByIdAsync(id);
-            if (existing == null)
-                return NotFound();
-
-            _mapper.Map(teamDto, existing);
-
-            var updated = await _teamService.UpdateAsync(existing);
-            if (!updated)
-                return StatusCode(500, "Could not update team");
-
+            await _mediator.Send(command with { Id = id });
             return NoContent();
         }
 
-        [HttpDelete("id")]
-        public async Task<IActionResult> Delete([FromQuery]int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _teamService.DeleteAsync(id);
-            if (!deleted)
-                return NotFound();
-            else
-                Console.WriteLine("Team deleted");
-
+            await _mediator.Send(new DeleteTeamCommand(id));
             return NoContent();
         }
+    
     }
 }

@@ -1,73 +1,45 @@
-﻿using FotbollTournament.Model;
+﻿using FotbollTournament.Application.Commands.Tournaments;
+using FotbollTournament.Application.Queries.Tornament;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using FotbollTournament.Services.Interface;
-using FotbollTournament.DTOS;
-using AutoMapper;
 namespace FotbollTournament.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class TournamentController : ControllerBase
     {
-        private readonly ITournamentService _tournamentService;
-        private readonly IMapper _mapper;
-
-        public TournamentController(ITournamentService tournamentService, IMapper mapper)
-        {
-            _tournamentService = tournamentService;
-            _mapper = mapper;
-        }
+        private readonly IMediator _mediator;
+        public TournamentController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string ? Name)
-        {
-            var tournaments = await _tournamentService.GetAllAsync();
-            var dto = _mapper.Map<List<Tournament>, List<TournamentDto>>(tournaments.ToList());
-            return Ok(dto);
-        }
+        public async Task<IActionResult> GetAll()
+            => Ok(await _mediator.Send(new GetAllTournamentsQuery()));
 
-        [HttpGet("id")]
-        public async Task<IActionResult> GetById([FromQuery]int id)
-        {
-            var tournament = await _tournamentService.GetByIdAsync(id);
-            if (tournament == null)
-                return NotFound();
-
-            return Ok(tournament);
-        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+            => Ok(await _mediator.Send(new GetTournamentByIdQuery(id)));    
 
         [HttpPost]
-        public async Task<IActionResult> Create(Tournament tournament)
+        public async Task<IActionResult> Create([FromBody] CreateTournamentCommand command)
         {
-            var created = await _tournamentService.CreateAsync(tournament);
-            return CreatedAtAction(nameof(GetById), new { id = created.TournamentId }, created);
+            var dto = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = dto.TournamentId }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Tournament tournament)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTournamentCommand command)
         {
-            if (id != tournament.TournamentId)
-                return BadRequest();
-
-            var updated = await _tournamentService.UpdateAsync(tournament);
-            if (!updated)
-                return NotFound();
-
+            await _mediator.Send(command with { TournamentId = id });
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _tournamentService.DeleteAsync(id);
-            if (!deleted)
-                return NotFound();
-
+            await _mediator.Send(new DeleteTournamentCommand(id));
             return NoContent();
         }
 
     }
-
-
 }
 
