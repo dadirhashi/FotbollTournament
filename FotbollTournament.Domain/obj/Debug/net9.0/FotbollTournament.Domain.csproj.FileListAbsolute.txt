@@ -1,0 +1,11 @@
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\bin\Debug\net9.0\FotbollTournament.Domain.deps.json
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\bin\Debug\net9.0\FotbollTournament.Domain.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\bin\Debug\net9.0\FotbollTournament.Domain.pdb
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.AssemblyInfoInputs.cache
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.AssemblyInfo.cs
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\refint\FotbollTournament.Domain.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\FotbollTournament.Domain.pdb
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Domain\obj\Debug\net9.0\ref\FotbollTournament.Domain.dll

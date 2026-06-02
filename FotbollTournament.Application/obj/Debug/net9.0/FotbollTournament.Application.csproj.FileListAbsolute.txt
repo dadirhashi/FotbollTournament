@@ -1,0 +1,15 @@
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\bin\Debug\net9.0\FotbollTournament.Application.deps.json
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\bin\Debug\net9.0\FotbollTournament.Application.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\bin\Debug\net9.0\FotbollTournament.Application.pdb
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\bin\Debug\net9.0\FotbollTournament.Domain.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\bin\Debug\net9.0\FotbollTournament.Domain.pdb
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.csproj.AssemblyReference.cache
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.AssemblyInfoInputs.cache
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.AssemblyInfo.cs
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.csproj.CoreCompileInputs.cache
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollT.985E6F5B.Up2Date
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\refint\FotbollTournament.Application.dll
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\FotbollTournament.Application.pdb
+C:\Users\Dadir\Desktop\dadirsandbox\skolan\Inlämningar\Tournament\FotbollTournament.Application\obj\Debug\net9.0\ref\FotbollTournament.Application.dll
